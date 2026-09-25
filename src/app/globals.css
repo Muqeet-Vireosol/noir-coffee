@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --espresso: #0B0907;
+  --coffee: #21150E;
+  --roast: #3A2417;
+  --cream: #F3EBDD;
+  --muted-cream: #BEB3A3;
+  --gold: #C9A45B;
+  --line: rgba(243,235,221,.18);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-espresso: var(--espresso);
+  --color-coffee: var(--coffee);
+  --color-roast: var(--roast);
+  --color-cream: var(--cream);
+  --color-muted-cream: var(--muted-cream);
+  --color-gold: var(--gold);
+  --color-line: var(--line);
+  --font-display: var(--font-display), "Cormorant Garamond", serif;
+  --font-ui: var(--font-ui), "Inter", sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--espresso);
+  color: var(--cream);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--espresso);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--roast);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--coffee);
+}
+
+::selection {
+  background-color: var(--gold);
+  color: var(--espresso);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Cinematic bokeh drift for Hero */
+@keyframes bokeh-float {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(30px, -40px) scale(1.3);
+    opacity: 0.2;
+  }
 }
