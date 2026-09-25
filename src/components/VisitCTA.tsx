@@ -3,10 +3,12 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useInViewVideo } from '@/lib/useInViewVideo';
 
 export default function VisitCTA() {
   const containerRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const videoRef = useInViewVideo({ src: '/assets/videos/atmosphere/cafe-atmosphere.mp4' });
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -29,10 +31,21 @@ export default function VisitCTA() {
 
   return (
     <section id="visit" ref={containerRef} className="relative py-40 px-6 overflow-hidden flex items-center justify-center">
-      <div 
+      <div
         ref={bgRef}
-        className="absolute inset-0 bg-[url('/assets/images/visit/cafe-interior.jpg')] bg-cover bg-center origin-center transform scale-100"
-      />
+        className="absolute inset-0 origin-center transform scale-100 overflow-hidden"
+      >
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover"
+          poster="/assets/images/cafe/cafe-interior.jpg"
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+        />
+      </div>
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-roast/60" />
       
       <div className="relative z-10 text-center max-w-2xl mx-auto flex flex-col items-center">

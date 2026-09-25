@@ -1,14 +1,13 @@
 'use client';
 import { useLayoutEffect, useRef, useCallback } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 /**
- * Hero Section — Cinematic "Video" Feel
+ * Hero Section — Cinematic Video Feel
  *
- * Since we cannot generate actual video, we simulate cinematic motion via:
- *  1. Slow Ken Burns zoom loop on the background image
+ * The cinematic background is a real looping video, layered with:
+ *  1. Slow Ken Burns zoom drift on the video itself
  *  2. Animated steam / particle system (canvas-drawn)
  *  3. Drifting bokeh light orbs
  *  4. Animated gradient overlay with subtle pulse
@@ -208,14 +207,18 @@ export default function Hero() {
       ref={containerRef}
       className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-espresso"
     >
-      {/* Background image with Ken Burns */}
+      {/* Background video with Ken Burns */}
       <div ref={bgRef} className="absolute inset-[-5%] w-[110%] h-[110%]">
-        <Image
-          src="/assets/images/hero/hero-coffee.jpg"
-          alt="Freshly brewed espresso in a dark cafe"
-          fill
-          priority
-          className="object-cover"
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/assets/videos/hero/hero-coffee.mp4"
+          poster="/assets/images/hero/hero-coffee.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
         />
       </div>
 

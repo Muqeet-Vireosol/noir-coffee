@@ -1,12 +1,13 @@
 'use client';
 import { useLayoutEffect, useRef } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { useInViewVideo } from '@/lib/useInViewVideo';
 
 export default function EspressoStory() {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+  const videoRef = useInViewVideo({ src: '/assets/videos/espresso/espresso-extraction.mp4' });
+
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     let ctx = gsap.context(() => {
@@ -36,11 +37,15 @@ export default function EspressoStory() {
   return (
     <section id="espresso" ref={containerRef} className="relative h-[120vh] w-full overflow-hidden bg-roast">
       <div className="absolute inset-0 layer-1">
-        <Image 
-          src="/assets/images/espresso/espresso-extraction.jpg" 
-          alt="Espresso Extraction" 
-          fill 
-          className="object-cover opacity-60"
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          poster="/assets/images/espresso/espresso-extraction.jpg"
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
         />
       </div>
       

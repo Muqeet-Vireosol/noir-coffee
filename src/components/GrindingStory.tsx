@@ -1,17 +1,30 @@
 'use client';
 import { useLayoutEffect, useRef } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { useInViewVideo } from '@/lib/useInViewVideo';
 
 export default function GrindingStory() {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+  const videoRef = useInViewVideo({ src: '/assets/videos/grinding/coffee-grinding.mp4' });
+
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     let ctx = gsap.context(() => {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReducedMotion) {
+        gsap.fromTo('.grind-img',
+          { opacity: 0, scale: 1.15 },
+          {
+            opacity: 1, scale: 1, duration: 1.4, ease: 'power2.out',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top 75%',
+              toggleActions: 'play none none reverse',
+            }
+          }
+        );
+
         gsap.to('.grind-img', {
           xPercent: -20,
           scrollTrigger: {
@@ -39,11 +52,15 @@ export default function GrindingStory() {
           <div className="w-full lg:w-[60%]">
             <div className="relative aspect-video rounded-lg overflow-hidden">
               <div className="absolute inset-[-20%] grind-img">
-                <Image 
-                  src="/assets/images/grinding/coffee-grinding.jpg" 
-                  alt="Coffee Grinding" 
-                  fill 
-                  className="object-cover"
+                <video
+                  ref={videoRef}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  poster="/assets/images/grinding/coffee-grinding.jpg"
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  aria-hidden="true"
                 />
               </div>
             </div>

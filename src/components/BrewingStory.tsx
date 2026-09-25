@@ -1,13 +1,14 @@
 'use client';
 import { useLayoutEffect, useRef } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { useInViewVideo } from '@/lib/useInViewVideo';
 
 export default function BrewingStory() {
   const containerRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<SVGCircleElement>(null);
-  
+  const videoRef = useInViewVideo({ src: '/assets/videos/brewing/pour-over.mp4' });
+
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     let ctx = gsap.context(() => {
@@ -33,11 +34,15 @@ export default function BrewingStory() {
 
   return (
     <section id="brewing" ref={containerRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      <Image 
-        src="/assets/images/brewing/pour-over.jpg" 
-        alt="Pour Over Brewing" 
-        fill 
-        className="object-cover brew-img z-0"
+      <video
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover brew-img z-0"
+        poster="/assets/images/brewing/pour-over.jpg"
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
       />
       <div className="absolute inset-0 brew-bg bg-espresso/40 z-10 transition-colors" />
       
